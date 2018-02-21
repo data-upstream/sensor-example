@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
 
   dataTempSeries = new Array<TimeSeriesItem>(); // holds temperature series
   dataPresSeries = new Array<TimeSeriesItem>(); // holds pressure
+  dataBatSeries = new Array<TimeSeriesItem>(); // holds pressure
 
   // baseUri = 'https://db.alpha.data-upstream.ch/api';
   baseUri = 'https://vs2.sp33c.de/api';
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit {
          */
         this.dataTempSeries = this.processData(seriesRaw, 5);
         this.dataPresSeries = this.processData(seriesRaw, 4);
+        this.dataBatSeries = this.processData(seriesRaw, 6);
       }
     );
   }
