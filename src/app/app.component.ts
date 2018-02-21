@@ -11,7 +11,8 @@ export class AppComponent implements OnInit {
 
   data: Object;
 
-  baseUri = 'https://db.alpha.data-upstream.ch/api';
+  // baseUri = 'https://db.alpha.data-upstream.ch/api';
+  baseUri = 'https://vs2.sp33c.de/api';
 
   constructor(
     private http: HttpClient
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
   makeRequest(): void {
     const options = {
       params: {
-        device_ids: ['0b2bed85-92f5-40d5-a9d7-3886db2964cb']
+        device_ids: ['34']
       },
       headers: {
         'Content-Type': 'application/json',
