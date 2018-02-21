@@ -107,7 +107,10 @@ export class AppComponent implements OnInit {
     on Init make request
    */
   ngOnInit() {
-    setInterval(this.makeRequest(), 1000 * 60 * 2 /* a 2min */);
+    this.makeRequest();
+    setInterval(() => {
+      this.makeRequest();
+    }, 1000 * 60 * 2 /* a 2min */);
   }
 
 
