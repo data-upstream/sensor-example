@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  private processData(data: Object): Number[] {
+  private processData(data: Array<ILogData>): Number[] {
     return new Array<Number>();
   }
 
@@ -47,9 +47,9 @@ export class AppComponent implements OnInit {
         const last_record = data[this.device][0];
 
         this.last_updated = last_record.created_at;
-        this.dataTempSeries = this.processData(data);
         const seriesRaw: Array<ILogData> = data[this.device];
         console.log(seriesRaw);
+        this.dataTempSeries = this.processData(seriesRaw);
         this.data = seriesRaw;
       }
     );
