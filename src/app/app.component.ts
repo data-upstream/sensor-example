@@ -83,21 +83,22 @@ export class AppComponent implements OnInit {
       }
     };
 
-    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=3', options).subscribe(
+    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=10', options).subscribe(
       data => {
-        // take note of last record (to display recorded at)
-        const last_record = data[this.device][0];
-        this.last_updated = last_record.created_at;
-
         // transform the untyped data from json request into typed one
         const seriesRaw: Array<ILogData> = data[this.device];
 
         /*
           process the series
          */
-        this.dataTempSeries = this.processData(seriesRaw, 5);
-        this.dataPresSeries = this.processData(seriesRaw, 4);
-        this.dataBatSeries = this.processData(seriesRaw, 6);
+        this.dataTempSeries = this.processData(seriesRaw, 5).reverse();
+        this.dataPresSeries = this.processData(seriesRaw, 4).reverse();
+        this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
+
+        // take note of last record (to display recorded at)
+        const last_record = this.dataTempSeries[0];
+        this.last_updated = last_record.created_at;
+
       }
     );
   }
