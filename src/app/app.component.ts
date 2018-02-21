@@ -12,7 +12,7 @@ interface ILogData {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Sensor Report';
+  title = 'Sensor Report - Biel/Bienne (CH)';
 
   last_updated: Date = null;
 

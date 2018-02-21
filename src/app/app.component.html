@@ -1,13 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    {{ title }}!
+    {{ title }}
   </h1>
   <div>
     {{last_updated | date:'full':'+01'}}
   </div>
   <div>
-    pressure={{ dataPresSeries[0] }},
-    temp={{ dataTempSeries[0] }}
+    pressure={{ dataPresSeries[0] }}mBar,
+    temp={{ dataTempSeries[0] }}C°
   </div>
 </div>
