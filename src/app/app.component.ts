@@ -20,16 +20,13 @@ export class AppComponent implements OnInit {
 
   makeRequest(): void {
     const options = {
-      params: {
-        device_ids: ['34']
-      },
       headers: {
         'Content-Type': 'application/json',
         // READ ONLY TOKEN
         'X-Access-Token': '3442bee0-0d02-4db4-b5e5-066de46931ab'
       }
     };
-    this.http.get(this.baseUri + '/aggregate_log_data', options).subscribe(
+    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[34]', options).subscribe(
       data => {
         this.data = data;
       }
