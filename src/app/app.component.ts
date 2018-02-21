@@ -1,13 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+  title = 'Sensor Report';
+
+  last_updated: Date = null;
 
   data: Object;
 
@@ -29,7 +33,10 @@ export class AppComponent implements OnInit {
     };
     this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=3', options).subscribe(
       data => {
+        const last_record = data[this.device][0];
         this.data = data[this.device];
+        this.last_updated = last_record.created_at;
+
       }
     );
   }

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from  'rxjs/Observable';
-import {LogData} from './log_data/log_data.model';
 
 @Injectable()
 export class ApiService {
@@ -11,7 +9,7 @@ export class ApiService {
   constructor(
     private httpClient: HttpClient
   ) {
-    httpClient.get<LogData>(this.baseUri + '/aggregate_log_data').subscribe(
+    httpClient.get<Object>(this.baseUri + '/aggregate_log_data').subscribe(
 
     );
   }
