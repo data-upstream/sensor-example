@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 interface ILogData {
    created_at: Date;
-   payload: Object;
+   payload: {data: string};
 }
 
 @Component({
@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   last_updated: Date = null;
 
   dataTempSeries = new Array<Number>();
+  dataPresSeries = new Array<Number>();
 
   data: Object;
 
@@ -28,10 +29,13 @@ export class AppComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  private processData(data: Array<ILogData>): Number[] {
-    return new Array<Number>();
+  private processData(data: Array<ILogData>, idx: number): Number[] {
+    const series = new Array<Number>();
+    for (const item of data) {
+      series.push(parseFloat(item.payload.data.split(',')[idx]));
+    }
+    return series;
   }
-
 
   makeRequest(): void {
     const options = {
@@ -48,9 +52,11 @@ export class AppComponent implements OnInit {
 
         this.last_updated = last_record.created_at;
         const seriesRaw: Array<ILogData> = data[this.device];
-        console.log(seriesRaw);
-        this.dataTempSeries = this.processData(seriesRaw);
-        this.data = seriesRaw;
+        // console.log(seriesRaw);
+        this.dataTempSeries = this.processData(seriesRaw, 5);
+        this.dataPresSeries = this.processData(seriesRaw, 4);
+        console.log(this.dataTempSeries);
+        // this.data = seriesRaw;
       }
     );
   }
