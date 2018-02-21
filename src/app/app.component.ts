@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
 
   // baseUri = 'https://db.alpha.data-upstream.ch/api';
   baseUri = 'https://vs2.sp33c.de/api';
+  device = '34';
 
   constructor(
     private http: HttpClient
@@ -26,9 +27,9 @@ export class AppComponent implements OnInit {
         'X-Access-Token': '3442bee0-0d02-4db4-b5e5-066de46931ab'
       }
     };
-    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[34]', options).subscribe(
+    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=3', options).subscribe(
       data => {
-        this.data = data;
+        this.data = data[this.device];
       }
     );
   }
