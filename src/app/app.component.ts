@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
   dataTempSeries = new Array<TimeSeriesItem>(); // holds temperature series
   dataPresSeries = new Array<TimeSeriesItem>(); // holds pressure
   dataBatSeries = new Array<TimeSeriesItem>(); // holds pressure
+  dataSleepSeries = new Array<TimeSeriesItem>(); // holds pressure
 
   // baseUri = 'https://db.alpha.data-upstream.ch/api';
   baseUri = 'https://vs2.sp33c.de/api';
@@ -94,6 +95,7 @@ export class AppComponent implements OnInit {
         this.dataTempSeries = this.processData(seriesRaw, 5).reverse();
         this.dataPresSeries = this.processData(seriesRaw, 4).reverse();
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
+        this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
 
         // take note of last record (to display recorded at)
         const last_record = this.dataTempSeries[0];
