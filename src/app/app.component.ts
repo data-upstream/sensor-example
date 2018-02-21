@@ -100,6 +100,7 @@ export class AppComponent implements OnInit {
         // take note of last record (to display recorded at)
         const last_record = this.dataTempSeries[0];
         this.last_updated = last_record.created_at;
+        console.log(last_record);
 
       }
     );
@@ -112,7 +113,7 @@ export class AppComponent implements OnInit {
     this.makeRequest();
     setInterval(() => {
       this.makeRequest();
-    }, 1000 * 60 * 2 /* a 2min */);
+    }, 1000 * 10 /* alle Xs */);
   }
 
 
