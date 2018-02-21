@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-
+interface ILogData {
+   created_at: Date;
+   payload: Object;
+}
 
 @Component({
   selector: 'app-root',
@@ -13,6 +16,8 @@ export class AppComponent implements OnInit {
 
   last_updated: Date = null;
 
+  dataTempSeries = new Array<Number>();
+
   data: Object;
 
   // baseUri = 'https://db.alpha.data-upstream.ch/api';
@@ -23,6 +28,11 @@ export class AppComponent implements OnInit {
     private http: HttpClient
   ) {}
 
+  private processData(data: Object): Number[] {
+    return new Array<Number>();
+  }
+
+
   makeRequest(): void {
     const options = {
       headers: {
@@ -31,12 +41,16 @@ export class AppComponent implements OnInit {
         'X-Access-Token': '3442bee0-0d02-4db4-b5e5-066de46931ab'
       }
     };
+
     this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=3', options).subscribe(
       data => {
         const last_record = data[this.device][0];
-        this.data = data[this.device];
-        this.last_updated = last_record.created_at;
 
+        this.last_updated = last_record.created_at;
+        this.dataTempSeries = this.processData(data);
+        const seriesRaw: Array<ILogData> = data[this.device];
+        console.log(seriesRaw);
+        this.data = seriesRaw;
       }
     );
   }
