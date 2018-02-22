@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
   last_updated: Date = null;
 
   dataTempSeries = new Array<TimeSeriesItem>(); // holds temperature series
+  dataVWCSeries = new Array<TimeSeriesItem>(); // holds VWC %
   dataPresSeries = new Array<TimeSeriesItem>(); // holds pressure
   dataBatSeries = new Array<TimeSeriesItem>(); // holds pressure
   dataSleepSeries = new Array<TimeSeriesItem>(); // holds pressure
@@ -93,6 +94,7 @@ export class AppComponent implements OnInit {
           process the series
          */
         this.dataTempSeries = this.processData(seriesRaw, 1).reverse();
+        this.dataVWCSeries = this.processData(seriesRaw, 0).reverse();
         this.dataPresSeries = this.processData(seriesRaw, 4).reverse();
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();

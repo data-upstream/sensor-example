@@ -8,7 +8,8 @@
   </div>
   <div>
     pressure={{ dataPresSeries[0].data }}mBar,
-    temp={{ dataTempSeries[0].data }}C°,
+    temp={{ (dataTempSeries[0].data-32)/1.8 }}C°,
+    hVWC={{ dataVWCSeries[0].data }}%,
     load={{ dataBatSeries[0].data }}%,
     sleept={{ dataSleepSeries[0].data }}min
   </div>
@@ -19,7 +20,8 @@
   </div>
   <div>
     pressure={{ dataPresSeries[9].data }}mBar,
-    temp={{ dataTempSeries[9].data }}C°,
+    temp={{ (dataTempSeries[9].data-32)/1.8 }}C°,
+    hVWC={{ dataVWCSeries[9].data }}%,
     load={{ dataBatSeries[9].data }}%,
     sleept={{ dataSleepSeries[9].data }}min
   </div>
