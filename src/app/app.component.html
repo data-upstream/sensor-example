@@ -4,7 +4,7 @@
     {{ title }}
   </h1>
   <div>
-    {{last_updated | date:'full':'+01'}} (last)
+    {{last_updated | date:'full':'+01'}} (latest)
   </div>
   <div>
     pressure={{ dataPresSeries[0].data }}mBar,
@@ -12,13 +12,14 @@
     load={{ dataBatSeries[0].data }}%,
     sleept={{ dataSleepSeries[0].data }}min
   </div>
+  <br>
   <div>
-    {{dataPresSeries[10].created_at | date:'full':'+01'}} (comparrison)
+    {{dataPresSeries[9].created_at | date:'full':'+01'}} (comparison)
   </div>
   <div>
-    pressure={{ dataPresSeries[10].data }}mBar,
-    temp={{ dataTempSeries[10].data }}C°,
-    load={{ dataBatSeries[10].data }}%,
-    sleept={{ dataSleepSeries[10].data }}min
+    pressure={{ dataPresSeries[9].data }}mBar,
+    temp={{ dataTempSeries[9].data }}C°,
+    load={{ dataBatSeries[9].data }}%,
+    sleept={{ dataSleepSeries[9].data }}min
   </div>
 </div>

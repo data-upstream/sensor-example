@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
       }
     };
 
-    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=10', options).subscribe(
+    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=20', options).subscribe(
       data => {
         // transform the untyped data from json request into typed one
         const seriesRaw: Array<ILogData> = data[this.device];
