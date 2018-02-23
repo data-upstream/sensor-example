@@ -4,14 +4,14 @@
     {{ title }}
   </h1>
   <div>
-    {{last_updated | date:'full':moment().format("Z")}} (latest)
+    {{last_updated | date:'dd.MM.yyyy HH:mm (z)':moment().format("Z")}}
   </div>
   <div>
-    pressure={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
-    temp={{ (dataTempSeries[0].data-32)/1.8 | number:'1.0-2' }}C°,
+    pres.={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
+    temp={{ (dataTempSeries[0].data-32)/1.8 | number:'1.0-2' }}C°; {{ dataTempSeries[0].data | number:'1.0-2' }}K,
     hVWC={{ dataVWCSeries[0].data | number:'1.1-1'}}%,
     load={{ dataBatSeries[0].data | number:'1.1-1'}}%,
-    sleept={{ dataSleepSeries[0].data }}min
+    sleep={{ dataSleepSeries[0].data }}min
   </div>
 </div>
 
