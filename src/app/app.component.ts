@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import * as moment from 'moment';
+import { DecimalPipe } from '@angular/common';
 
 /**
  * interface LogData
@@ -39,6 +41,7 @@ export class AppComponent implements OnInit {
 
   last_updated: Date = null;
 
+  moment = moment;
   dataTempSeries = new Array<TimeSeriesItem>(); // holds temperature series
   dataVWCSeries = new Array<TimeSeriesItem>(); // holds VWC %
   dataPresSeries = new Array<TimeSeriesItem>(); // holds pressure

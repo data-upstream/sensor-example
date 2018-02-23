@@ -4,25 +4,14 @@
     {{ title }}
   </h1>
   <div>
-    {{last_updated | date:'full':'+01'}} (latest)
+    {{last_updated | date:'full':moment().format("Z")}} (latest)
   </div>
   <div>
-    pressure={{ dataPresSeries[0].data }}mBar,
-    temp={{ (dataTempSeries[0].data-32)/1.8 }}C°,
-    hVWC={{ dataVWCSeries[0].data }}%,
-    load={{ dataBatSeries[0].data }}%,
+    pressure={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
+    temp={{ (dataTempSeries[0].data-32)/1.8 | number:'1.0-2' }}C°,
+    hVWC={{ dataVWCSeries[0].data | number:'1.1-1'}}%,
+    load={{ dataBatSeries[0].data | number:'1.1-1'}}%,
     sleept={{ dataSleepSeries[0].data }}min
   </div>
-  <br>
-  <div>
-
-    {{dataPresSeries[9].created_at | date:'full':'+01'}} (comparison)
-  </div>
-  <div>
-    pressure={{ dataPresSeries[9].data }}mBar,
-    temp={{ (dataTempSeries[9].data-32)/1.8 }}C°,
-    hVWC={{ dataVWCSeries[9].data }}%,
-    load={{ dataBatSeries[9].data }}%,
-    sleept={{ dataSleepSeries[9].data }}min
-  </div>
 </div>
+
