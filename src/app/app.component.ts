@@ -116,7 +116,6 @@ export class AppComponent implements OnInit {
         // take note of last record (to display recorded at)
         const last_record = this.dataTempSeries[0];
         this.last_updated = last_record.created_at;
-        console.log(last_record);
 
       }
     );
