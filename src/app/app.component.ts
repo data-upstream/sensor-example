@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
   title = 'Sensor Report - Biel/Bienne (CH)';
 
   last_updated: Date = null;
+  f2c = this._f2c;
 
   moment = moment;
   dataTempSeries = new Array<TimeSeriesItem>(); // holds temperature series
@@ -74,6 +75,16 @@ export class AppComponent implements OnInit {
       series.push(new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
     }
     return series;
+  }
+
+  /**
+   * returns temp.C
+   * @param {number} vFar   value in fahrenheit given
+   * @returns {number}
+   * @private
+   */
+  private _f2c(vFar: number): number {
+    return (vFar - 32) / 1.8;
   }
 
   /**
