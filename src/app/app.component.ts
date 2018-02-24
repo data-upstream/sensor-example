@@ -166,6 +166,7 @@ export class AppComponent implements OnInit {
 
         const chartInstance = this.myChart.getInstance();
 
+        this.sampleData=[];
         for (const item of this.dataTempSeries) {
           this.sampleData.push(this.f2c(item.data));
         }
