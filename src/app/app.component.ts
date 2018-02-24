@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         type: 'line',
         source: this.sampleData,
         toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
-          let dataItem = this.sampleData[itemIndex];
+          const dataItem = this.sampleData[itemIndex];
           return '<DIV style="text-align:left"><b>Index:</b> ' +
             itemIndex + '<br /><b>Value:</b> ' +
             value + '<br /></DIV>';
