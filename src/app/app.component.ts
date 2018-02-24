@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
 import { jqxChartComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxchart';
+import {injectTemplateRef} from '@angular/core/src/render3';
 
 /**
  * interface LogData
@@ -40,7 +41,8 @@ export class AppComponent implements OnInit {
 
   @ViewChild('myChart') myChart: jqxChartComponent;
 
-  sampleData: any[] = [29, undefined, 10, 15, 10, undefined, NaN, 30, 25, undefined, 33, 19, 11];
+  // sampleData: any[] = [29, undefined, 10, 15, 10, undefined, NaN, 30, 25, undefined, 33, 19, 11];
+  sampleData: any[] = [];
 
   padding: any = { left: 5, top: 5, right: 15, bottom: 5 };
 
@@ -74,18 +76,6 @@ export class AppComponent implements OnInit {
       }
     ];
 
-  dropDownOnSelect(event: any): void {
-    let chartInstance = this.myChart.getInstance();
-    let args = event.args;
-
-    if (args) {
-      let value = args.item.value;
-      chartInstance.seriesGroups[0].series[0].emptyPointsDisplay = value;
-      chartInstance.update();
-    }
-
-  }
-
   title = 'Sensor Report - Biel/Bienne (CH)';
 
   last_updated: Date = null;
@@ -109,6 +99,18 @@ export class AppComponent implements OnInit {
   constructor(
     private http: HttpClient
   ) {}
+
+  dropDownOnSelect(event: any): void {
+    let chartInstance = this.myChart.getInstance();
+    let args = event.args;
+
+    if (args) {
+      let value = args.item.value;
+      chartInstance.seriesGroups[0].series[0].emptyPointsDisplay = value;
+      chartInstance.update();
+    }
+
+  }
 
   /**
    * parses / processes raw data from sensor
@@ -161,6 +163,35 @@ export class AppComponent implements OnInit {
         this.dataPresSeries = this.processData(seriesRaw, 4).reverse();
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
+
+        const chartInstance = this.myChart.getInstance();
+
+        for (const item of this.dataTempSeries) {
+          this.sampleData.push(this.f2c(item.data));
+        }
+        this.seriesGroups =
+          [
+            {
+              type: 'line',
+              source: this.sampleData,
+              toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
+                const dataItem = this.sampleData[itemIndex];
+                return '<DIV style="text-align:left"><b>Index:</b> ' +
+                  itemIndex + '<br /><b>Value:</b> ' +
+                  value + '<br /></DIV>';
+              },
+              valueAxis:
+                {
+                  title: { text: 'Value<br>' }
+                },
+              series:
+                [
+                  { emptyPointsDisplay: 'skip', displayText: 'Value', lineWidth: 2, symbolSize: 8, symbolType: 'circle' }
+                ]
+            }
+          ];
+
+        chartInstance.update();
 
         // take note of last record (to display recorded at)
         const last_record = this.dataTempSeries[0];
