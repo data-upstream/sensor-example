@@ -6,12 +6,27 @@
   <div>
     {{last_updated | date:'dd.MM.yyyy HH:mm (z)':moment().format("Z")}}
   </div>
-  <div>
-    pres.={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
+  <div [hidden]="!dataPresSeries[0]">
+    pressure={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
     temp={{ f2c(dataTempSeries[0].data) | number:'1.0-2' }}C°,
     hVWC={{ dataVWCSeries[0].data | number:'1.1-1'}}%,
     load={{ dataBatSeries[0].data | number:'1.1-1'}}%,
     sleep={{ dataSleepSeries[0].data }}min
   </div>
-</div>
+  <jqxChart #myChart
+            [width]="850" [height]="500"
+            [title]="'Line serie with missing points'"
+            [description]="'Sample line serie with missing and invalid values'"
+            [showLegend]="true" [padding]="padding"
+            [titlePadding]="titlePadding" [source]="sampleData" [xAxis]="xAxis"
+            [seriesGroups]="seriesGroups" [colorScheme]="'scheme05'"
+            style="margin: auto;">
+  </jqxChart>
 
+  <!--<p style="font-family: Verdana; font-size: 12px">Select missing points display mode:</p>-->
+
+  <!--<jqxDropDownList (onSelect)="dropDownOnSelect($event)"-->
+                   <!--[width]="220" [height]="25" [selectedIndex]="0"-->
+                   <!--[dropDownHeight]="77" [source]="['skip','zero','connect']">-->
+  <!--</jqxDropDownList>-->
+</div>
