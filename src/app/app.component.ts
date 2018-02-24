@@ -179,7 +179,7 @@ export class AppComponent implements OnInit {
               toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
                 const dataItem = this.sampleData[itemIndex];
                 return '<DIV style="text-align:left"><b>Index:</b> ' +
-                  itemIndex + '<br /><b>Value:</b> ' +
+                  this.dataPresSeries[itemIndex].created_at + '<br /><b>Value:</b> ' +
                   value + '<br /></DIV>';
               },
               valueAxis:
