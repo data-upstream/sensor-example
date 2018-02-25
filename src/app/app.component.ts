@@ -46,11 +46,7 @@ export class AppComponent implements OnInit {
 
   titlePadding: any = { left: 0, top: 0, right: 0, bottom: 10 };
 
-  xAxis: any =
-    {
-      text: 'x',
-      valuesOnTicks: false
-    };
+  xAxis: any = {};
 
   seriesGroups: any[] = this.createGraph();
 
@@ -79,6 +75,12 @@ export class AppComponent implements OnInit {
   ) {}
 
   createGraph() {
+    this.xAxis = {
+        text: 'x',
+        valuesOnTicks: false,
+        visible: false
+    };
+
     return     [
       {
         type: 'line',
