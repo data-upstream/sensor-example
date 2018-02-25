@@ -120,11 +120,7 @@ export class AppComponent implements OnInit {
    * @returns {Number[]}
    */
   private processData(data: Array<ILogData>, idx: number): TimeSeriesItem[] {
-    const series = new Array<TimeSeriesItem>();
-    for (const item of data) {
-      series.push(new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
-    }
-    return series;
+    return data.map((item) => new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
   }
 
   /**
@@ -160,18 +156,19 @@ export class AppComponent implements OnInit {
          */
         this.dataTempSeries = this.processData(seriesRaw, 1).reverse();
         this.dataVWCSeries = this.processData(seriesRaw, 4).map((x) => new TimeSeriesItem(x.data / 4096 * 100, x.created_at)).reverse();
-        this.dataPresSeries = this.processData(seriesRaw, 3).reverse();
+        this.dataPresSeries = this.processData(seriesRaw, 3).map((x) => new TimeSeriesItem(x.data / 100, x.created_at)).reverse();
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
 
-        this.sampleData = [];
-        for (const item of this.dataPresSeries) {
-          // this.sampleData.push(this.f2c(item.data));
-          this.sampleData.push(item.data / 100);
-        }
-
+        /*
+          build graph
+         */
+        this.sampleData = this.dataPresSeries.map(x => x.data);
         this.seriesGroups = this.createGraph();
 
+        /*
+        update graph
+         */
         const chartInstance = this.myChart.getInstance();
         chartInstance.update();
 
