@@ -167,7 +167,7 @@ export class AppComponent implements OnInit {
         this.sampleData = [];
         for (const item of this.dataPresSeries) {
           // this.sampleData.push(this.f2c(item.data));
-          this.sampleData.push(item.data) / 100;
+          this.sampleData.push(item.data / 100);
         }
 
         this.seriesGroups = this.createGraph();
