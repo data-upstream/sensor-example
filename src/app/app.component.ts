@@ -101,15 +101,14 @@ export class AppComponent implements OnInit {
   }
 
   dropDownOnSelect(event: any): void {
-    let chartInstance = this.myChart.getInstance();
-    let args = event.args;
+    const chartInstance = this.myChart.getInstance();
+    const args = event.args;
 
     if (args) {
-      let value = args.item.value;
+      const value = args.item.value;
       chartInstance.seriesGroups[0].series[0].emptyPointsDisplay = value;
       chartInstance.update();
     }
-
   }
 
   /**
@@ -123,9 +122,7 @@ export class AppComponent implements OnInit {
   private processData(data: Array<ILogData>, idx: number): TimeSeriesItem[] {
     const series = new Array<TimeSeriesItem>();
     for (const item of data) {
-      if (item.payload.data.split(',')[idx]) {
-        series.push(new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
-      }
+      series.push(new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
     }
     return series;
   }
@@ -162,15 +159,15 @@ export class AppComponent implements OnInit {
           process the series
          */
         this.dataTempSeries = this.processData(seriesRaw, 1).reverse();
-        this.dataVWCSeries = this.processData(seriesRaw, 0).reverse();
-        this.dataPresSeries = this.processData(seriesRaw, 4).reverse();
+        this.dataVWCSeries = this.processData(seriesRaw, 0).map((x) => new TimeSeriesItem(x.data, x.created_at)).reverse();
+        this.dataPresSeries = this.processData(seriesRaw, 3).reverse();
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
 
         this.sampleData = [];
         for (const item of this.dataPresSeries) {
           // this.sampleData.push(this.f2c(item.data));
-          this.sampleData.push(item.data);
+          this.sampleData.push(item.data) / 100;
         }
 
         this.seriesGroups = this.createGraph();
