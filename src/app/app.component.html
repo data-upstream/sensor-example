@@ -6,7 +6,7 @@
   <div>
     {{last_updated | date:'dd.MM.yyyy HH:mm (z)':moment().format("Z")}}
   </div>
-  <div [hidden]="!dataPresSeries[0]">
+  <div *ngIf="dataPresSeries[0]">
     pressure={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
     temp={{ f2c(dataTempSeries[0].data) | number:'1.0-2' }}C°,
     hVWC={{ dataVWCSeries[0].data | number:'1.1-1'}}%,

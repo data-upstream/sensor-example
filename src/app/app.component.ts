@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
 import { jqxChartComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxchart';
-import {injectTemplateRef} from '@angular/core/src/render3';
+// import {injectTemplateRef} from '@angular/core/src/render3';
 
 /**
  * interface LogData
@@ -38,10 +38,8 @@ class TimeSeriesItem {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
   @ViewChild('myChart') myChart: jqxChartComponent;
 
-  // sampleData: any[] = [29, undefined, 10, 15, 10, undefined, NaN, 30, 25, undefined, 33, 19, 11];
   sampleData: any[] = [];
 
   padding: any = { left: 5, top: 5, right: 15, bottom: 5 };
@@ -54,27 +52,7 @@ export class AppComponent implements OnInit {
       valuesOnTicks: false
     };
 
-  seriesGroups: any[] =
-    [
-      {
-        type: 'line',
-        source: this.sampleData,
-        toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
-          const dataItem = this.sampleData[itemIndex];
-          return '<DIV style="text-align:left"><b>Index:</b> ' +
-            itemIndex + '<br /><b>Value:</b> ' +
-            value + '<br /></DIV>';
-        },
-        valueAxis:
-          {
-            title: { text: 'Value<br>' }
-          },
-        series:
-          [
-            { emptyPointsDisplay: 'skip', displayText: 'Value', lineWidth: 2, symbolSize: 8, symbolType: 'circle' }
-          ]
-      }
-    ];
+  seriesGroups: any[] = this.createGraph();
 
   title = 'Sensor Report - Biel/Bienne (CH)';
 
@@ -100,6 +78,29 @@ export class AppComponent implements OnInit {
     private http: HttpClient
   ) {}
 
+  createGraph() {
+    return     [
+      {
+        type: 'line',
+        source: this.sampleData,
+        toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
+          const dataItem = this.sampleData[itemIndex];
+          return '<DIV style="text-align:left"><b>Index:</b> ' +
+            itemIndex + '<br /><b>Value:</b> ' +
+            value + '<br /></DIV>';
+        },
+        valueAxis:
+          {
+            title: { text: 'Value<br>' }
+          },
+        series:
+          [
+            { emptyPointsDisplay: 'skip', displayText: 'Value', lineWidth: 2, symbolSize: 8, symbolType: 'circle' }
+          ]
+      }
+    ];
+  }
+
   dropDownOnSelect(event: any): void {
     let chartInstance = this.myChart.getInstance();
     let args = event.args;
@@ -123,7 +124,9 @@ export class AppComponent implements OnInit {
   private processData(data: Array<ILogData>, idx: number): TimeSeriesItem[] {
     const series = new Array<TimeSeriesItem>();
     for (const item of data) {
-      series.push(new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
+      if (item.payload.data.split(',')[idx]) {
+        series.push(new TimeSeriesItem(parseFloat(item.payload.data.split(',')[idx]), item.created_at));
+      }
     }
     return series;
   }
@@ -151,7 +154,8 @@ export class AppComponent implements OnInit {
     };
 
     this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=50', options).subscribe(
-      data => {
+      (data) => {
+
         // transform the untyped data from json request into typed one
         const seriesRaw: Array<ILogData> = data[this.device];
 
@@ -167,31 +171,13 @@ export class AppComponent implements OnInit {
         const chartInstance = this.myChart.getInstance();
 
         this.sampleData = [];
+
         for (const item of this.dataPresSeries) {
           // this.sampleData.push(this.f2c(item.data));
           this.sampleData.push(item.data);
         }
-        this.seriesGroups =
-          [
-            {
-              type: 'line',
-              source: this.sampleData.reverse(),
-              toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
-                const dataItem = this.sampleData[itemIndex];
-                return '<DIV style="text-align:left"><b>Index:</b> ' +
-                  this.dataPresSeries[itemIndex].created_at + '<br /><b>Value:</b> ' +
-                  value + '<br /></DIV>';
-              },
-              valueAxis:
-                {
-                  title: { text: 'Value<br>' }
-                },
-              series:
-                [
-                  { emptyPointsDisplay: 'skip', displayText: 'Value', lineWidth: 2, symbolSize: 8, symbolType: 'circle' }
-                ]
-            }
-          ];
+
+        this.seriesGroups = this.createGraph();
 
         chartInstance.update();
 
