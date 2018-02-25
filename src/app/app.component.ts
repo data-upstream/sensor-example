@@ -82,11 +82,10 @@ export class AppComponent implements OnInit {
     return     [
       {
         type: 'line',
-        source: this.sampleData,
+        source: this.sampleData.reverse(),
         toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
-          const dataItem = this.sampleData[itemIndex];
           return '<DIV style="text-align:left"><b>Index:</b> ' +
-            itemIndex + '<br /><b>Value:</b> ' +
+            this.dataPresSeries[itemIndex].created_at + '<br /><b>Value:</b> ' +
             value + '<br /></DIV>';
         },
         valueAxis:
@@ -95,7 +94,7 @@ export class AppComponent implements OnInit {
           },
         series:
           [
-            { emptyPointsDisplay: 'skip', displayText: 'Value', lineWidth: 2, symbolSize: 8, symbolType: 'circle' }
+            { emptyPointsDisplay: 'skip', displayText: 'Sensor 1', lineWidth: 2, symbolSize: 8, symbolType: 'circle' }
           ]
       }
     ];
@@ -168,10 +167,7 @@ export class AppComponent implements OnInit {
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
 
-        const chartInstance = this.myChart.getInstance();
-
         this.sampleData = [];
-
         for (const item of this.dataPresSeries) {
           // this.sampleData.push(this.f2c(item.data));
           this.sampleData.push(item.data);
@@ -179,6 +175,7 @@ export class AppComponent implements OnInit {
 
         this.seriesGroups = this.createGraph();
 
+        const chartInstance = this.myChart.getInstance();
         chartInstance.update();
 
         // take note of last record (to display recorded at)
