@@ -177,7 +177,7 @@ export class AppComponent implements OnInit {
             build graph
            */
           // this.sampleData = this.dataPresSeries.map(x => x.data);
-          this.sampleData = values;
+          this.sampleData = values,reverse();
           this.seriesGroups = this.createGraph();
 
           /*
