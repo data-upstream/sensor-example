@@ -7,7 +7,7 @@
     {{last_updated | date:'dd.MM.yyyy HH:mm (z)':moment().format("Z")}}
   </div>
   <div *ngIf="dataPresSeries[0]">
-    pa={{ dataPresSeries[0].data | number:'1.0-0'}}mBar,
+    pa={{ dataPresSeries[0].data | number:'1.1-1'}}mBar,
     temp={{ f2c(dataTempSeries[0].data) | number:'1.0-2' }}C°,
     hVWC={{ dataVWCSeries[0].data | number:'1.1-1'}}%,
     load={{ dataBatSeries[0].data | number:'1.1-1'}}%,
