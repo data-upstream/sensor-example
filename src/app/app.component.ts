@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
         source: this.sampleData.reverse(),
         toolTipFormatFunction: (value: any, itemIndex: any, serie: any, group: any, categoryValue: any, categoryAxis: any) => {
           return '<DIV style="text-align:left"><b>Index:</b> ' +
-            this.dataPresSeries[itemIndex].created_at + '<br /><b>Value:</b> ' +
+            '' + '<br /><b>Value:</b> ' +
             value + '<br /></DIV>';
         },
         valueAxis:
@@ -177,7 +177,7 @@ export class AppComponent implements OnInit {
             build graph
            */
           // this.sampleData = this.dataPresSeries.map(x => x.data);
-          this.sampleData = values.reverse();
+          this.sampleData = values;
           this.seriesGroups = this.createGraph();
 
           /*
