@@ -12,6 +12,7 @@ interface ILogData {
    payload: {data: string};
 }
 
+
 /**
  * model time series item
  */
@@ -64,6 +65,8 @@ export class AppComponent implements OnInit {
 
   // baseUri = 'https://db.alpha.data-upstream.ch/api';
   baseUri = 'https://vs2.sp33c.de/api';
+  pythonApi = 'https://python-api.data-upstream.ch/api';
+  // pythonApi = 'http://192.168.1.32:5000/api';
   device = '34';
 
   /**
@@ -147,7 +150,7 @@ export class AppComponent implements OnInit {
       }
     };
 
-    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=50', options).subscribe(
+    this.http.get(this.baseUri + '/aggregate_log_data?device_ids=[' + this.device + ']&limit=500', options).subscribe(
       (data) => {
 
         // transform the untyped data from json request into typed one
@@ -162,21 +165,32 @@ export class AppComponent implements OnInit {
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
 
-        /*
-          build graph
-         */
-        this.sampleData = this.dataPresSeries.map(x => x.data);
-        this.seriesGroups = this.createGraph();
+        const payload = {index: this.dataPresSeries.map(x => x.created_at), data: this.dataPresSeries.map(x => x.data)};
+        this.http.post(this.pythonApi + '/v1.0/pandas/ts/downsample/12min?mean', payload).subscribe((ts) => {
 
-        /*
-        update graph
-         */
-        const chartInstance = this.myChart.getInstance();
-        chartInstance.update();
+          const pythonTimeSeries = ts;
+          // console.log(pythonTimeSeries);
+          const values = Object.keys(pythonTimeSeries).map(key => pythonTimeSeries[key]).map(x => x);
+          // console.log(values);
 
-        // take note of last record (to display recorded at)
-        const last_record = this.dataTempSeries[0];
-        this.last_updated = last_record.created_at;
+          /*
+            build graph
+           */
+          // this.sampleData = this.dataPresSeries.map(x => x.data);
+          this.sampleData = values;
+          this.seriesGroups = this.createGraph();
+
+          /*
+          update graph
+           */
+          const chartInstance = this.myChart.getInstance();
+          chartInstance.update();
+
+          // take note of last record (to display recorded at)
+          const last_record = this.dataTempSeries[0];
+          this.last_updated = last_record.created_at;
+
+        });
 
       }
     );
