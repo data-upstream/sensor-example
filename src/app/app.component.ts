@@ -161,7 +161,7 @@ export class AppComponent implements OnInit {
          */
         this.dataTempSeries = this.processData(seriesRaw, 1).reverse();
         this.dataVWCSeries = this.processData(seriesRaw, 4).map((x) => new TimeSeriesItem(x.data / 4096 * 100, x.created_at)).reverse();
-        this.dataPresSeries = this.processData(seriesRaw, 3).map((x) => new TimeSeriesItem(x.data / 100 * 1.053, x.created_at)).reverse();
+        this.dataPresSeries = this.processData(seriesRaw, 3).map((x) => new TimeSeriesItem(x.data / 100 * 1.051, x.created_at)).reverse();
         this.dataBatSeries = this.processData(seriesRaw, 6).reverse();
         this.dataSleepSeries = this.processData(seriesRaw, 7).reverse();
 
